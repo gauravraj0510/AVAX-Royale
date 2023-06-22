@@ -1,11 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CustomInput, PageHOC, CustomButton } from "../components";
 import { useGlobalContext } from "../context";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const { contract, walletAddress } = useGlobalContext();
+  const { contract, walletAddress, setShowAlert } = useGlobalContext();
   const [playerName, setPlayerName] = useState("");
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const createPlayerToken = async () => {
+      const playerExists = await contract.isPlayer(walletAddress);
+      const playerTokenExists = await contract.isPlayerToken(walletAddress);
+      if (playerExists && playerTokenExists) navigate("/create-battle");
+    };
+
+    if (contract) createPlayerToken();
+  }, [contract]);
+
+  const handleClick = async () => {
+    try {
+      const playerExists = await contract.isPlayer(walletAddress);
+
+      if (!playerExists) {
+        await contract.registerPlayer(playerName, playerName);
+        setShowAlert({
+          status: true,
+          type: "info",
+          message: `${playerName} is being summoned!`,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      setShowAlert({
+        status: true,
+        type: "failure",
+        message: "Somethin went wrong! Please try again!",
+      });
+    }
+  };
   return (
     <div className="flex flex-col">
       <CustomInput
@@ -15,7 +48,11 @@ const Home = () => {
         handleValueChange={setPlayerName}
       />
 
-      <CustomButton title="Register" handleClick={() => {}} restStyles="mt-6" />
+      <CustomButton
+        title="Register"
+        handleClick={handleClick}
+        restStyles="mt-6"
+      />
     </div>
   );
 };
