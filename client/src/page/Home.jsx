@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { CustomButton, CustomInput, PageHOC } from '../components';
-import { useGlobalContext } from '../context';
+import { CustomButton, CustomInput, PageHOC } from "../components";
+import { useGlobalContext } from "../context";
 
 const Home = () => {
-  const { contract, walletAddress, gameData, setShowAlert, setErrorMessage } = useGlobalContext();
-  const [playerName, setPlayerName] = useState('');
+  const { contract, walletAddress, gameData, setShowAlert, setErrorMessage } =
+    useGlobalContext();
+  const [playerName, setPlayerName] = useState("");
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -14,15 +15,17 @@ const Home = () => {
       const playerExists = await contract.isPlayer(walletAddress);
 
       if (!playerExists) {
-        await contract.registerPlayer(playerName, playerName, { gasLimit: 500000 });
+        await contract.registerPlayer(playerName, playerName, {
+          gasLimit: 500000,
+        });
 
         setShowAlert({
           status: true,
-          type: 'info',
+          type: "info",
           message: `${playerName} is being summoned!`,
         });
 
-        setTimeout(() => navigate('/create-battle'), 8000);
+        setTimeout(() => navigate("/create-battle"), 8000);
       }
     } catch (error) {
       setErrorMessage(error);
@@ -34,7 +37,7 @@ const Home = () => {
       const playerExists = await contract.isPlayer(walletAddress);
       const playerTokenExists = await contract.isPlayerToken(walletAddress);
 
-      if (playerExists && playerTokenExists) navigate('/create-battle');
+      if (playerExists && playerTokenExists) navigate("/create-battle");
     };
 
     if (contract) createPlayerToken();
@@ -69,10 +72,10 @@ const Home = () => {
 export default PageHOC(
   Home,
   <>
-    Welcome to Avax Gods <br /> a Web3 NFT Card Game
+    Welcome to Avax Royale <br /> a Web3 NFT Card Game
   </>,
   <>
     Connect your wallet to start playing <br /> the ultimate Web3 Battle Card
     Game
-  </>,
+  </>
 );
