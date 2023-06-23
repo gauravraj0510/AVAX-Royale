@@ -1,10 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-import Alert from './Alert';
-import { useGlobalContext } from '../context';
-import { logo, heroImg } from '../assets';
-import styles from '../styles';
+import Alert from "./Alert";
+import { useGlobalContext } from "../context";
+import { logo, heroImg } from "../assets";
+import styles from "../styles";
 
 const PageHOC = (Component, title, description) => () => {
   const { showAlert } = useGlobalContext();
@@ -12,10 +12,17 @@ const PageHOC = (Component, title, description) => () => {
 
   return (
     <div className={styles.hocContainer}>
-      {showAlert?.status && <Alert type={showAlert.type} message={showAlert.message} />}
+      {showAlert?.status && (
+        <Alert type={showAlert.type} message={showAlert.message} />
+      )}
 
       <div className={styles.hocContentBox}>
-        <img src={logo} alt="logo" className={styles.hocLogo} onClick={() => navigate('/')} />
+        <img
+          src={logo}
+          alt="logo"
+          className={styles.hocLogo}
+          onClick={() => navigate("/")}
+        />
 
         <div className={styles.hocBodyWrapper}>
           <div className="flex flex-row w-full">
@@ -27,11 +34,23 @@ const PageHOC = (Component, title, description) => () => {
           <Component />
         </div>
 
-        <p className={styles.footerText}>Made with 💜 by JavaScript Mastery</p>
+        <p className={styles.footerText}>
+          Made with 💜 by{" "}
+          <a
+            href="https://www.linkedin.com/in/gauravraj0510"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
+          Raj510
+        </p>
       </div>
 
       <div className="flex flex-1">
-        <img src={heroImg} alt="hero-img" className="w-full xl:h-full object-cover" />
+        <img
+          src={heroImg}
+          alt="hero-img"
+          className="w-full xl:h-full object-cover"
+        />
       </div>
     </div>
   );
