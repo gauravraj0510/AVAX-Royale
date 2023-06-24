@@ -13,9 +13,9 @@ const GameInfo = () => {
   const navigate = useNavigate();
 
   const handleBattleExit = async () => {
-    try {
-      const battleName = gameData.activeBattle.name;
+    const battleName = gameData.activeBattle.name;
 
+    try {
       await contract.quitBattle(battleName);
 
       setShowAlert({
