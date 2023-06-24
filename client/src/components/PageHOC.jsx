@@ -40,8 +40,9 @@ const PageHOC = (Component, title, description) => () => {
             href="https://www.linkedin.com/in/gauravraj0510"
             target="_blank"
             rel="noopener noreferrer"
-          ></a>
-          Raj510
+          >
+            Raj510
+          </a>
         </p>
       </div>
 
